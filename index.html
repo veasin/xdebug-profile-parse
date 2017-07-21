@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>View Profile</title>
+	<link href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet">
+	<script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
+	<link href="fancytree/skin-win8/ui.fancytree.css" rel="stylesheet">
+	<script src="fancytree/jquery.fancytree-all.min.js"></script>
+	<style type="text/css">
+		#tree{
+			font:8pt 'Ubuntu Mono', Consolas, 'Courier New', monospace;
+			outline: 0 !important;
+		}
+		.progress{
+			min-width: 300px;
+		}
+		.progress div{
+			height: 12px;
+		}
+		.progress div p{
+			display: block;
+			height: 12px;
+			background-color: #607d8b;
+			margin-top: 0;
+			margin-bottom: 0;
+		}
+		.progress div i{
+			display: block;
+			height: 12px;
+			background-color: #ff9800;
+			margin-top: 0;
+			margin-bottom: 0;
+		}
+		.php .fancytree-node .fancytree-icon{
+			background-image: url('data:image/gif;base64,R0lGODlhEAAQAOYAAOXl5eLi4tPT09HR0c/Pz83NzcjIyMbGxsPDw8LCwr6+vrS0tLOzs6qqqqioqKenp6WlpaGhoZiYmJaWlpWVlYeHh4aGhoGBgX19fXd3d3Z2dnR0dHNzc3JycnBwcG9vb2xsbGtra2ZmZmVlZVtbW1lZWVhYWFZWVk9PT01NTUxMTEtLS0JCQkBAQD09PTs7Ozo6Ojc3NzY2NjU1NTIyMjExMS4uLisrKykpKScnJyYmJiUlJSMjIyEhIR0dHRwcHBsbGxoaGhkZGRgYGBcXFxQUFBMTExISEhERERAQEA8PDw4ODg0NDQwMDAsLCwoKCgkJCQcHBwMDAwAAAP///wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAEHAFQALAAAAAAQABAAAAeigFSCg4SFhlQKU4eHD1CLhhc7jwwuMSpUHE8zJ1QjMDEVghhTP1MgIlBLUxM8R0VTFlQmnB4+OKFDH0kDVEBRVC4ZVBRKSA1URB1OAVQ1ijoSVB1DSwZUTRpMgkEyyAjIK0kAVFAbQlQLUwwCRUFOUxGKBFIZUj5TKFQOTTYvCQUsqBxAEYIJjRKCPhhZ1IIEoRs5FvW4QIhIikU5IDzaSCUQADs=') !important;
+			background-position: 0px 0px !important;
+		}
+		.require .fancytree-node .fancytree-icon{
+			background-image: url('data:image/gif;base64,R0lGODlhEAAQANUAAO7u7ujo6OLi4tnZ2bq6ura2tq6urpSUlJCQkIWFhYODg319fXx8fHJyclpaWklJSUNDQ0JCQkFBQUBAQD4+Pj09PTw8PDg4ODU1NTExMSgoKCMjIx0dHRsbGxoaGhUVFRAQEA8PDw0NDQsLCwoKCgUFBQEBAQAAAP///wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAEHACgALAAAAAAQABAAAAZrQBRKAToZTxuhctkpcZ4c0WO5PFmWgMxnQEWdKF3HqUA9VZQBjQCVOB2qZ6WRgDKYMPK4kNFYCCMneV1KEoFCZoNCE4Zeel2LgomQh45Uk15giYVyE4koEIweJBekpaUjIUoIHEetRh0KKEEAOw==') !important;
+			background-position: 0px 0px !important;
+		}
+		.class .fancytree-node .fancytree-icon{
+			background-image: url('data:image/gif;base64,R0lGODlhEAAQAOYAAO7u7uvr6+Pj49nZ2djY2NfX19bW1tXV1dPT09LS0tHR0c/Pz83NzczMzMvLy8rKysjIyMfHx8bGxsPDw7CwsK6urqysrJWVlZSUlH19fXl5eXJycm5ubmhoaGdnZ2RkZGJiYmFhYV5eXl1dXVpaWlJSUlBQUE5OTk1NTUxMTEtLS0lJSUhISEZGRkNDQ0BAQD09PTw8PDo6Ojk5OTc3NzY2NjMzMzIyMjExMTAwMCwsLCoqKikpKSgoKCcnJyYmJiUlJSQkJB0dHRcXFxUVFRMTExISEhAQEA4ODg0NDQoKCgkJCQYGBgAAAP///wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAEHAE4ALAAAAAAQABAAAAejgE6Cgg8uTU0vEYOLTgAhRjwqKTtGIgGMBkkzDosMMUoKi0odjIMcTACCITmLFRgMgzUkTgdKC4M4QzJNGYIGSw0rQIMaSIIWQoM8uyyDOSOlTieHzYI0JYMUg9MpQYMXTQROG02DPTAFSrCqS0REE4IIS7cfOosCCIs30IJJINFOOixZNOCIDQmLINBIcqCUhyI/WrTwUeRDqmgJTBxCcWtRIAA7') !important;
+			background-position: 0px 0px !important;
+		}
+		.fun .fancytree-node .fancytree-icon{
+			background-image: url('data:image/gif;base64,R0lGODlhEAAQANUAAO7u7uzs7Onp6ejo6Obm5t/f393d3dvb29nZ2c/Pz8rKysjIyMXFxbq6uq2traysrKurq6ampqKiop2dnZqampmZmYeHh4GBgX9/f35+fnd3d3Z2dnJycm5ubmpqamhoaGVlZWRkZGNjY19fX15eXl1dXVFRUU1NTUdHR0RERENDQ0BAQD8/Pz09PTw8PDg4ODExMS8vLy4uLiAgIBISEhEREQ8PDw4ODg0NDQYGBgMDAwICAgEBAQAAAP///wAAACH5BAEHAD4ALAAAAAAQABAAAAZ3QJ9w6Bv1dB6iUnjCvWKlJfHSM0iXtdB12WNsfRPNxijSIHySYcXh27BctNyqtRD0MD5Qj0NUsYgQPSY9bEQ5GUopPRZKBT0NRBQ9MzBKDz0CQxE9Gj43H0QdNkQ4JEIJO4xCMihEAEQDAUOpX0MHPAq1QgQpukEAOw==') !important;
+			background-position: 0px 0px !important;
+		}
+		th.self{
+			background-color: #ff9800;
+		}
+		th.cumulative{
+			background-color: #607d8b;
+		}
+	</style>
+
+</head>
+<body>
+
+<h1>Profile</h1>
+<div>
+	<select name="" id="file">
+		<option value="last">last profile</option>
+	</select>
+	<button id="load">load</button>
+	<button id="refresh">refresh</button>
+</div>
+<table id="tree">
+	<thead>
+	<tr>
+		<th>function</th>
+		<th>file:line</th>
+		<th class="self">self(μs)</th>
+		<th class="cumulative">cumulative(μs)</th>
+		<th></th>
+	</tr>
+	</thead>
+	<tbody>
+	<!-- Define a row template for all invariant markup: -->
+	<tr>
+		<td class="alignCenter"></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td class="progress"></td>
+	</tr>
+	</tbody>
+</table>
+
+
+<script type="text/javascript">
+	let $file =document.getElementById('file');
+
+    document.getElementById('load').addEventListener('click', ()=>{
+        loadProfile($file.value);
+    });
+    document.getElementById('refresh').addEventListener('click', ()=>{
+        loadList();
+    });
+
+	function loadList() {
+        fetch('loader.php?act=list').then((response)=>{
+            return response.json();
+        }).then((json) => {
+            $file.innerHTML ='';
+            let opt =document.createElement('option');
+            opt.text ='last profile';
+            opt.value ='last';
+            $file.appendChild(opt);
+            json.forEach((val)=>{
+                let opt =document.createElement('option');
+                opt.text =val;
+                opt.value =val;
+                $file.appendChild(opt);
+            });
+        });
+    }
+
+    let summary =0;
+    let w =300;
+	function loadProfile(file='last'){
+        fetch('loader.php?act=load&file='+file).then((response)=>{
+            return response.json();
+        }).then((json) => {
+            summary =json.summary;
+            $.ui.fancytree.getTree("#tree").reload([json.node]);
+        });
+    }
+
+    $("#tree").fancytree({
+        checkbox: false,
+        titlesTabbable: true,     // Add all node titles to TAB chain
+        quicksearch: false,        // Jump to nodes when pressing first character
+        //source: [json.node],
+        extensions: ["table", "gridnav"],
+        renderColumns: function (event, data) {
+            let node = data.node,
+                $tdList = $(node.tr).find(">td"),
+                $title =$tdList.eq(0).find('span.fancytree-title');
+
+            let title =$title.text();
+            $tdList.eq(0).attr("title", title);
+            let pref =title.split('::')[0];
+            switch (pref){
+                case 'php':
+                    $tdList.eq(0).addClass('php');
+                    $title.text(title.substr(5));
+                    break;
+                case 'require':
+                    $tdList.eq(0).addClass('require');
+                    $title.text(title.substr(9));
+                    break;
+                case 'require_once':
+                    $tdList.eq(0).addClass('require');
+                    $title.text(title.substr(14));
+                    break;
+                default:
+                    if (title.indexOf('->')!==-1 || title.indexOf('::')!==-1) $tdList.eq(0).addClass('class');
+                    else $tdList.eq(0).addClass('fun')
+                    break;
+            }
+
+            let name =node.data.file.split('/').pop();
+            if (name==='php:internal') name = '';
+            $tdList.eq(1).text(name+ (name.length >0 ?(':'+node.data.line) :'')).attr("title", node.data.file);
+            $tdList.eq(2).text(node.data.self);
+            $tdList.eq(3).text(node.data.cumulative);
+            $tdList.eq(4).html("<div><p style='margin-left:"+node.data.start*w/summary+"px;width:"+node.data.cumulative*w/summary+"px'><i style='width:"+node.data.self*w/summary+"px'></i></p></div>");
+        }
+    });
+    loadList();
+
+
+</script>
+</body>
+</html>
